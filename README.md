@@ -1,41 +1,33 @@
 # BluetoothConnector Boot
 
-**Fork of [lapfelix/BluetoothConnector](https://github.com/lapfelix/BluetoothConnector)** - Auto-connect Bluetooth device at boot.
-
-> **Less is more** - Connects once at startup, then stops. No loops, no spam.
+Fork of [lapfelix/BluetoothConnector](https://github.com/lapfelix/BluetoothConnector) - Auto-connect Bluetooth device at boot.
 
 ## What This Does
 
-- ✅ **Boot Auto-Connect**: Connects your Bluetooth device when Mac starts
-- ✅ **One-time Only**: Runs once at boot, no repeated attempts  
-- ✅ **No Spam**: Won't keep sending notifications
-- ✅ **Perfect for**: AirPods, headphones, speakers
+Connects your Bluetooth device automatically when Mac starts up. Runs once at boot, then stops. No loops, no repeated attempts.
 
-## Quick Setup
+## Installation
 
-### 1. Build
 ```bash
 swift build -c release
 ```
 
-### 2. Find Your Device
-```bash
-./.build/release/BluetoothConnector
-```
+## Usage
 
-### 3. Setup Auto-Connect
+### Setup Auto-Connect
 ```bash
 ./setup-boot.sh YOUR-MAC-ADDRESS
 # Example: ./setup-boot.sh 07-b1-87-8e-b9-7f
 ```
 
-**Done!** Your device will connect automatically at boot.
+### Manual Commands
+```bash
+# Connect manually
+./setup-boot.sh --connect MAC-ADDRESS
 
-## How It Works
-
-1. **Boot**: Mac starts → Script runs once
-2. **Connect**: Tries to connect your device → Sends notification
-3. **Stop**: Script ends, no background process
+# Disconnect manually
+./.build/release/BluetoothConnector --disconnect MAC-ADDRESS
+```
 
 ## Management
 
@@ -55,27 +47,17 @@ launchctl unload ~/Library/LaunchAgents/com.bluetoothconnector.boot.plist
 rm ~/Library/LaunchAgents/com.bluetoothconnector.boot.plist
 ```
 
-## Manual Commands
-
-```bash
-# Connect manually
-./setup-boot.sh --connect MAC-ADDRESS
-
-# Disconnect manually  
-./.build/release/BluetoothConnector --disconnect MAC-ADDRESS
-```
-
-## What's Different from Original?
+## Difference from Original
 
 **Original [lapfelix/BluetoothConnector](https://github.com/lapfelix/BluetoothConnector):**
 - Manual connection only
 - No auto-connect feature
 
 **This Fork:**
-- ✅ **Boot auto-connect** - Connects automatically at startup
-- ✅ **One-time execution** - No loops or repeated attempts
-- ✅ **Simple setup** - Single command setup
-- ✅ **Less is more** - Minimal, clean approach
+- Boot auto-connect
+- One-time execution
+- Simple setup
+- Less is more approach
 
 ## License
 
