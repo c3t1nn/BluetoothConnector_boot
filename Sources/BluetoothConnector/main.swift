@@ -64,6 +64,39 @@ enum ActionType {
     case Disconnect
 }
 
+func executeBootMode(macAddress: String) {
+    // Boot mode - runs at system startup
+    // Turn on Bluetooth and connect to specified device
+    print("Boot mode: Attempting to connect to \(macAddress)")
+    
+    // Wait for Bluetooth to become available (may take time at system startup)
+    var attempts = 0
+    let maxAttempts = 30 // Wait 30 seconds
+    
+    while attempts < maxAttempts {
+        guard let bluetoothHost = IOBluetoothHostController.default() else {
+            usleep(1000000) // Wait 1 second
+            attempts += 1
+            continue
+        }
+        
+        if bluetoothHost.powerState == kBluetoothHCIPowerStateON {
+            break
+        }
+        
+        usleep(1000000) // Wait 1 second
+        attempts += 1
+    }
+    
+    if attempts >= maxAttempts {
+        print("Boot mode: Bluetooth not available after \(maxAttempts) seconds")
+        exit(-1)
+    }
+    
+    // Try to connect to device
+    execute(macAddress: macAddress, connectOnly: true, disconnectOnly: false, notify: true, statusOnly: false)
+}
+
 func execute(macAddress: String, connectOnly: Bool, disconnectOnly: Bool, notify: Bool, statusOnly: Bool) {
     guard let bluetoothDevice = IOBluetoothDevice(addressString: macAddress) else {
         printAndNotify(title: utilityName(), body: "Device not found", notify: notify)
@@ -144,6 +177,9 @@ struct BluetoothConnector: ParsableCommand {
     @Flag(name: .shortAndLong, help: "Post a Notification Center notification")
     var notify = false
 
+    @Flag(name: .shortAndLong, help: "Boot mode - automatically connect on system startup")
+    var boot = false
+
     @Argument(help: ArgumentHelp(
         "The MAC address of the device. Format: 00-00-00-00-00-00 or 000000000000",
         valueName: "MAC address"))
@@ -169,6 +205,20 @@ struct BluetoothConnector: ParsableCommand {
             }
         }
 
+        if boot {
+            guard connect == false else {
+                throw ValidationError("Can't use --boot with --connect flag.")
+            }
+
+            guard disconnect == false else {
+                throw ValidationError("Can't use --boot with --disconnect flag.")
+            }
+
+            guard status == false else {
+                throw ValidationError("Can't use --boot with --status flag.")
+            }
+        }
+
         if let address = macAddress {
             if address.replacingOccurrences(of: "-", with: "").count != 12 {
                 throw ValidationError("Invalid MAC address: \(address).")
@@ -180,7 +230,11 @@ struct BluetoothConnector: ParsableCommand {
     }
 
     func run() throws {
-        execute(macAddress: macAddress!, connectOnly: connect, disconnectOnly: disconnect, notify: notify, statusOnly: status)
+        if boot {
+            executeBootMode(macAddress: macAddress!)
+        } else {
+            execute(macAddress: macAddress!, connectOnly: connect, disconnectOnly: disconnect, notify: notify, statusOnly: status)
+        }
     }
 }
 
