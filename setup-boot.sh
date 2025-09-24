@@ -64,25 +64,18 @@ cat > "$PLIST_FILE" << EOF
     
     <key>ProgramArguments</key>
     <array>
-        <string>$BLUETOOTH_CONNECTOR_PATH</string>
-        <string>--boot</string>
+        <string>$SCRIPT_DIR/smart-bluetooth-connect.sh</string>
         <string>$MAC_ADDRESS</string>
     </array>
     
     <key>RunAtLoad</key>
     <true/>
     
-    <key>StartInterval</key>
-    <integer>300</integer>
-    
     <key>StandardOutPath</key>
     <string>/tmp/bluetoothconnector-boot.log</string>
     
     <key>StandardErrorPath</key>
     <string>/tmp/bluetoothconnector-boot-error.log</string>
-    
-    <key>ThrottleInterval</key>
-    <integer>60</integer>
 </dict>
 </plist>
 EOF
