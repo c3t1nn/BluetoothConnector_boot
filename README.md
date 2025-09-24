@@ -4,15 +4,10 @@ Simple macOS CLI to connect/disconnect Bluetooth devices with **automatic boot c
 
 > **Fork of [lapfelix/BluetoothConnector](https://github.com/lapfelix/BluetoothConnector) with added boot auto-connect feature**
 
-## 🚀 Boot Auto-Connect
-
-Automatically connect to your Bluetooth device when your Mac starts up!
-
 ## Installation
 
 ```bash
 swift build -c release
-sudo mv .build/release/BluetoothConnector /usr/local/bin/
 ```
 
 ## Usage
@@ -55,7 +50,3 @@ rm ~/Library/LaunchAgents/com.bluetoothconnector.boot.plist
 ## What's Different?
 
 This fork adds the **boot auto-connect** feature that automatically connects to your Bluetooth device when your Mac starts up. Perfect for AirPods, headphones, or any Bluetooth device you want to connect automatically.
-
-## Original Project
-
-Based on [lapfelix/BluetoothConnector](https://github.com/lapfelix/BluetoothConnector) - a simple macOS CLI to connect/disconnect Bluetooth devices.
