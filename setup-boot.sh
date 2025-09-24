@@ -1,6 +1,15 @@
 #!/bin/bash
 # BluetoothConnector Boot Setup
 
+# If --connect flag, just connect and exit
+if [ "$1" = "--connect" ]; then
+    MAC_ADDRESS="$2"
+    BLUETOOTH_CONNECTOR_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.build/release/BluetoothConnector"
+    "$BLUETOOTH_CONNECTOR_PATH" --connect "$MAC_ADDRESS" --notify
+    exit 0
+fi
+
+# Setup mode
 if [ -z "$1" ]; then
     echo "Usage: $0 <MAC_ADDRESS>"
     echo "Example: $0 07-b1-87-8e-b9-7f"
@@ -23,7 +32,8 @@ cat > "$PLIST_FILE" << EOF
     
     <key>ProgramArguments</key>
     <array>
-        <string>$SCRIPT_DIR/smart-bluetooth-connect.sh</string>
+        <string>$SCRIPT_DIR/setup-boot.sh</string>
+        <string>--connect</string>
         <string>$MAC_ADDRESS</string>
     </array>
     
