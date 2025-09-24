@@ -1,17 +1,17 @@
 # BluetoothConnector Boot
 
-**Fork of [lapfelix/BluetoothConnector](https://github.com/lapfelix/BluetoothConnector)** - Simple macOS CLI with automatic boot connection.
+**Fork of [lapfelix/BluetoothConnector](https://github.com/lapfelix/BluetoothConnector)** - Auto-connect Bluetooth device at boot.
 
-> **Less is more** - Just connects your Bluetooth device once at startup, then stops.
+> **Less is more** - Connects once at startup, then stops. No loops, no spam.
 
 ## What This Does
 
-- ✅ **Boot Auto-Connect**: Automatically connects your Bluetooth device when Mac starts
-- ✅ **One-time Only**: Runs once at boot, no repeated attempts
-- ✅ **No Spam**: Won't keep sending "Already connected" notifications
-- ✅ **Perfect for**: AirPods, headphones, speakers, any Bluetooth device
+- ✅ **Boot Auto-Connect**: Connects your Bluetooth device when Mac starts
+- ✅ **One-time Only**: Runs once at boot, no repeated attempts  
+- ✅ **No Spam**: Won't keep sending notifications
+- ✅ **Perfect for**: AirPods, headphones, speakers
 
-## Quick Start
+## Quick Setup
 
 ### 1. Build
 ```bash
@@ -29,13 +29,13 @@ swift build -c release
 # Example: ./setup-boot.sh 07-b1-87-8e-b9-7f
 ```
 
-**Done!** Your device will now connect automatically at boot.
+**Done!** Your device will connect automatically at boot.
 
 ## How It Works
 
-1. **Boot**: Mac starts → Launch Agent runs once
-2. **Connect**: Tries to connect your device
-3. **Done**: Stops, no more attempts until next boot
+1. **Boot**: Mac starts → Script runs once
+2. **Connect**: Tries to connect your device → Sends notification
+3. **Stop**: Script ends, no background process
 
 ## Management
 
@@ -59,7 +59,7 @@ rm ~/Library/LaunchAgents/com.bluetoothconnector.boot.plist
 
 ```bash
 # Connect manually
-./.build/release/BluetoothConnector --connect MAC-ADDRESS --notify
+./setup-boot.sh --connect MAC-ADDRESS
 
 # Disconnect manually  
 ./.build/release/BluetoothConnector --disconnect MAC-ADDRESS
@@ -67,11 +67,15 @@ rm ~/Library/LaunchAgents/com.bluetoothconnector.boot.plist
 
 ## What's Different from Original?
 
-This fork adds **boot auto-connect** feature:
-- Original: Manual connection only
-- This fork: Automatic connection at startup + manual commands
+**Original [lapfelix/BluetoothConnector](https://github.com/lapfelix/BluetoothConnector):**
+- Manual connection only
+- No auto-connect feature
 
-**Less is more approach** - Simple, clean, no unnecessary complexity.
+**This Fork:**
+- ✅ **Boot auto-connect** - Connects automatically at startup
+- ✅ **One-time execution** - No loops or repeated attempts
+- ✅ **Simple setup** - Single command setup
+- ✅ **Less is more** - Minimal, clean approach
 
 ## License
 
